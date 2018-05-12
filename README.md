@@ -76,5 +76,10 @@ CircleCI projects can be imported using the name, e.g.
 $ terraform import circleci_project.myproj myproj
 ```
 
+## License
+
+terraform-provider-circleci is released under the [Mozilla Public License 2.0][].
+
 [Terraform]: https://www.terraform.io
 [CircleCI]: https://circleci.com
+[Mozilla Public License 2.0]: https://github.com/thiagoalessio/terraform-provider-circleci/blob/master/LICENSE
