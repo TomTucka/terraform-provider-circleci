@@ -2,6 +2,9 @@
 
 [Terraform][] provider for [CircleCI][].
 
+[![Codacy][codacy_badge]][codacy]
+[![Code Coverage][coverage_badge]][codacy]
+
 ## Provider
 
 The CircleCI provider is used to interact with CircleCI resources.
@@ -82,4 +85,7 @@ terraform-provider-circleci is released under the [Mozilla Public License 2.0][]
 
 [Terraform]: https://www.terraform.io
 [CircleCI]: https://circleci.com
+[codacy_badge]: https://api.codacy.com/project/badge/Grade/f6d223a6d8ad4ea6b0a65d5c5235f5fc
+[codacy]: https://www.codacy.com/app/thiagoalessio/terraform-provider-circleci
+[coverage_badge]: https://api.codacy.com/project/badge/Coverage/f6d223a6d8ad4ea6b0a65d5c5235f5fc
 [Mozilla Public License 2.0]: https://github.com/thiagoalessio/terraform-provider-circleci/blob/master/LICENSE
