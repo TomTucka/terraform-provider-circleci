@@ -13,7 +13,6 @@ it can be used.
 #### Example Usage
 
 ```hdl
-# Configure the CircleCI Provider
 provider "circleci" {
   token        = "${var.circleci_token}"
   organization = "${var.circleci_organization}"
@@ -51,7 +50,6 @@ When applied, a project is enabled. When destroyed, that project will be disable
 #### Example Usage
 
 ```hdl
-# Start building a project on CircleCI
 resource "circleci_project" "myproj" {
   name = "myproj"
 
