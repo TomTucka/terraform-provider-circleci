@@ -2,9 +2,7 @@
 
 [Terraform][] provider for [CircleCI][].
 
-## Usage
-
-### Provider
+## Provider
 
 The CircleCI provider is used to interact with CircleCI resources.
 
@@ -32,6 +30,16 @@ The following arguments are supported in the `provider` block:
 * `organization` - (Optional) This is the organization/account to be managed.
   It must be provided, but it can also be sourced from the `CIRCLECI_ORGANIZATION`
   environment variable.
+
+---
+
+## Data Sources
+
+@TODO
+
+---
+
+## Resources
 
 ### circleci_project
 
