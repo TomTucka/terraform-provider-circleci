@@ -12,7 +12,7 @@ it can be used.
 
 #### Example Usage
 
-```hdl
+```hcl
 provider "circleci" {
   token        = "${var.circleci_token}"
   organization = "${var.circleci_organization}"
@@ -49,7 +49,7 @@ When applied, a project is enabled. When destroyed, that project will be disable
 
 #### Example Usage
 
-```hdl
+```hcl
 resource "circleci_project" "myproj" {
   name = "myproj"
 
@@ -72,7 +72,7 @@ The following arguments are supported:
 
 CircleCI projects can be imported using the name, e.g.
 
-```sh
+```shell
 $ terraform import circleci_project.myproj myproj
 ```
 
