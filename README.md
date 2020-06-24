@@ -1,4 +1,4 @@
-Terraform Provider for PagerDuty
+Terraform Provider for CircleCI
 ================================
 
 - Website: https://www.terraform.io
