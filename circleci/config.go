@@ -14,7 +14,7 @@ type Organization struct {
 	client *circleci.Client
 }
 
-func (c *Config) Client() (interface{}, error) {
+func Client(c Config) (interface{}, error) {
 	var org Organization
 
 	org.name = c.Organization

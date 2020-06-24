@@ -1,11 +1,15 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform/plugin"
-	"github.com/thiagoalessio/terraform-provider-circleci/circleci"
+	"github.com/TomTucka/terraform-provider-circleci/circleci"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/plugin"
 )
 
 func main() {
 	plugin.Serve(&plugin.ServeOpts{
-		ProviderFunc: circleci.Provider})
+		ProviderFunc: func() *schema.Provider {
+			return circleci.Provider()
+		},
+	})
 }

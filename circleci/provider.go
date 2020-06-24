@@ -1,46 +1,35 @@
 package circleci
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
-func Provider() terraform.ResourceProvider {
-	var p *schema.Provider
-	p = &schema.Provider{
+func Provider() *schema.Provider {
+	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"token": &schema.Schema{
+			"token": {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("CIRCLECI_TOKEN", nil),
 				Description: "CircleCI API token.",
 			},
-			"organization": &schema.Schema{
+			"organization": {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("CIRCLECI_ORGANIZATION", nil),
 				Description: "CircleCI organization name to manage.",
 			},
 		},
-
 		ResourcesMap: map[string]*schema.Resource{
-			"circleci_project": resourceCircleciProject(),
-			"circleci_envvar":  resourceCircleciEnvvar(),
+			"example_server": resourceCircleciProject(),
 		},
-
-		DataSourcesMap: map[string]*schema.Resource{},
+		ConfigureFunc: providerConfigure,
 	}
-	p.ConfigureFunc = providerConfigure(p)
-	return p
 }
 
-func providerConfigure(p *schema.Provider) schema.ConfigureFunc {
-	return func(d *schema.ResourceData) (interface{}, error) {
-		config := Config{
-			Token:        d.Get("token").(string),
-			Organization: d.Get("organization").(string),
-		}
-
-		return config.Client()
-	}
+func providerConfigure(d *schema.ResourceData) (interface{}, error) {
+	return Client(Config{
+		Token:        d.Get("api_token").(string),
+		Organization: d.Get("organization").(string),
+	})
 }
