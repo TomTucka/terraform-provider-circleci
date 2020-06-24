@@ -21,7 +21,7 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"example_server": resourceCircleciProject(),
+			"circleci_project": resourceCircleciProject(),
 		},
 		ConfigureFunc: providerConfigure,
 	}
