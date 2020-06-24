@@ -1,11 +1,11 @@
 package circleci
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func Provider() *schema.Provider {
-	return &schema.Provider{
+	p := &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"token": {
 				Type:        schema.TypeString,
@@ -21,15 +21,21 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"circleci_project": resourceCircleciProject(),
+			"circleci_project": 				resourceCircleciProject(),
+			"circleci_environment_variable": 	resourceCircleciEnvVar(),
 		},
-		ConfigureFunc: providerConfigure,
 	}
+	p.ConfigureFunc = providerConfiguretest(p)
+	return p
 }
 
-func providerConfigure(d *schema.ResourceData) (interface{}, error) {
-	return Client(Config{
-		Token:        d.Get("api_token").(string),
-		Organization: d.Get("organization").(string),
-	})
+func providerConfiguretest(p *schema.Provider) schema.ConfigureFunc {
+	return func(d *schema.ResourceData) (interface{}, error) {
+		config := Config{
+			Token:        d.Get("token").(string),
+			Organization: d.Get("organization").(string),
+		}
+
+		return config.Client()
+	}
 }

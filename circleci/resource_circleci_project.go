@@ -1,7 +1,7 @@
 package circleci
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceCircleciProject() *schema.Resource {
@@ -10,7 +10,6 @@ func resourceCircleciProject() *schema.Resource {
 		Read:   resourceCircleciProjectRead,
 		Update: resourceCircleciProjectUpdate,
 		Delete: resourceCircleciProjectDelete,
-
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
