@@ -1,7 +1,7 @@
 package circleci
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceCircleciProject() *schema.Resource {
@@ -10,7 +10,6 @@ func resourceCircleciProject() *schema.Resource {
 		Read:   resourceCircleciProjectRead,
 		Update: resourceCircleciProjectUpdate,
 		Delete: resourceCircleciProjectDelete,
-
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
@@ -28,11 +27,11 @@ func resourceCircleciProject() *schema.Resource {
 	}
 }
 
-func resourceCircleciProjectCreate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*Organization).client
-	organization := meta.(*Organization).name
+func resourceCircleciProjectCreate(d *schema.ResourceData, m interface{}) error {
+	client := m.(*Organization).client
+	organization := m.(*Organization).name
 	project := d.Get("name").(string)
-	env_vars := d.Get("env_vars").(map[string]interface{})
+	envVars := d.Get("env_vars").(map[string]interface{})
 
 	_, err := client.FollowProject(organization, project)
 	if err != nil {
@@ -41,7 +40,7 @@ func resourceCircleciProjectCreate(d *schema.ResourceData, meta interface{}) err
 
 	d.SetId(project)
 
-	for name, value := range env_vars {
+	for name, value := range envVars {
 		_, err := client.AddEnvVar(organization, project, name, value.(string))
 		if err != nil {
 			return err
@@ -50,17 +49,17 @@ func resourceCircleciProjectCreate(d *schema.ResourceData, meta interface{}) err
 	return nil
 }
 
-func resourceCircleciProjectRead(d *schema.ResourceData, meta interface{}) error {
+func resourceCircleciProjectRead(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func resourceCircleciProjectUpdate(d *schema.ResourceData, meta interface{}) error {
-	return resourceCircleciProjectCreate(d, meta)
+func resourceCircleciProjectUpdate(d *schema.ResourceData, m interface{}) error {
+	return resourceCircleciProjectCreate(d, m)
 }
 
-func resourceCircleciProjectDelete(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*Organization).client
-	organization := meta.(*Organization).name
+func resourceCircleciProjectDelete(d *schema.ResourceData, m interface{}) error {
+	client := m.(*Organization).client
+	organization := m.(*Organization).name
 	name := d.Get("name").(string)
 
 	return client.DisableProject(organization, name)
