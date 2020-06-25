@@ -22,6 +22,7 @@ func resourceCircleciProject() *schema.Resource {
 			"env_vars": {
 				Type:     schema.TypeMap,
 				Optional: true,
+				Sensitive: true
 			},
 		},
 	}
