@@ -1,0 +1,81 @@
+version: 2.1
+
+workflows:
+  version: 2
+  pr_build_and_test:
+    jobs:
+      - build_provider:
+          name: build_and_test_provider
+          filters:
+            branches:
+              ignore:
+                - master
+
+  build_and_release:
+    jobs:
+      - build_provider:
+          name: build_and_test_provider
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+
+      - release_provider:
+          name: release_terraform_provider
+          requires: [build_and_test_provider]
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+
+
+orbs:
+  terraform_provider_circleci:
+    commands:
+      install_ghr:
+        steps:
+          - run:
+              name: Install Ghr
+              command: go get github.com/tcnksm/ghr
+jobs:
+  build_provider:
+    docker:
+      - image: circleci/golang
+    working_directory: ~/provider
+    steps:
+      - checkout
+      - run:
+          name: Install Go Modules Dependencies
+          command: go mod download
+      - run: mkdir -p /tmp/test-results
+      - run:
+          name: Run Unit and Intergration Tests
+          command: gotestsum --junitfile unit-tests.xml
+      - store_test_results:
+          path: /tmp/test-results
+      - run:
+          name: Build CircleCI provider
+          command: |
+            CGO_ENABLED=0 GOOS=darwin GOARCH=386 go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-darwin-386
+            CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-darwin-amd64
+            CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-linux-386
+            CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-linux-amd64
+            CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-linux-arm
+      - persist_to_workspace:
+          root: ~/provider
+          paths:
+            - build
+
+  release_provider:
+    docker:
+      - image: circleci/golang
+    steps:
+      - attach_workspace:
+          at: ~/provider/build
+      - terraform_provider_circleci/install_ghr
+      - run:
+          name: Release CircleCI provider
+          command: |
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} .
