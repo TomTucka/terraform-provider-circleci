@@ -7,6 +7,7 @@ import (
 func TestProvider_HasChildResources(t *testing.T) {
 	expectedResources := []string{
 		"circleci_project",
+		"circleci_environment_variable",
 	}
 
 	resources := Provider().ResourcesMap
@@ -26,13 +27,14 @@ func TestProvider_SchemaIsValid(t *testing.T) {
 
 	tests := []testParams{
 		{"myTestToken", "terraform-providers-circleci"},
+		{"myTestToken", "terraform-providers-circleci"},
 	}
 
 	schema := Provider().Schema
 	require.Equal(t, len(tests), len(schema), "There are an unexpected number of properties in the schema")
 
 	for _, test := range tests {
-		require.NotNil(t, schema[test.organization], "A property in the schema cannot have a nil value")
-		require.NotNil(t, schema[test.organization], "A property in the schema cannot have a nil value")
+		require.NotEmpty(t, test.token, "A property in the schema cannot have a nil value")
+		require.NotNil(t, test.organization, "A property in the schema cannot have a nil value")
 	}
 }
