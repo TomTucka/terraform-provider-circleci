@@ -73,7 +73,7 @@ jobs:
       - image: circleci/golang
     steps:
       - attach_workspace:
-          at: ~/provider/build
+          at: ~/provider
       - terraform_provider_circleci/install_ghr
       - run:
           name: Release CircleCI provider
