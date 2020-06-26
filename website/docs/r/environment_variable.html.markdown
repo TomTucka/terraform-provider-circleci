@@ -10,6 +10,16 @@ description: |-
 
   circleci_environment_variable manages environment variables on CircleCI projects.
 
+## Example Usage
+
+```terraform
+resource "circleci_environment_variable" "example" {
+    project    = "MyCircleProject"
+    name       = "SOME_VARIABLE"
+    value      = "MyVariableValue"
+}
+```
+
 ## Schema
 
 ### Required

@@ -10,6 +10,17 @@ description: |-
 
 circleci_project manages projects in CircleCI.
 
+## Example Usage
+
+```terraform
+resource "circleci_project" "example" {
+    name     = "MyCircleProject"
+    env_vars {
+      SOME_VARIABLE = "MyVariableValue"
+    }
+}
+```
+
 ## Schema
 
 ### Required
