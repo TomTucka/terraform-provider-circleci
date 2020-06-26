@@ -65,15 +65,13 @@ jobs:
             CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-linux-arm
       - persist_to_workspace:
           root: ~/provider
-          paths:
-            - build
 
   release_provider:
     docker:
       - image: circleci/golang
     steps:
       - attach_workspace:
-          at: ~/provider/build
+          at: ~/provider
       - terraform_provider_circleci/install_ghr
       - run:
           name: Release CircleCI provider
