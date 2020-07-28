@@ -11,26 +11,6 @@ workflows:
               ignore:
                 - master
 
-  build_and_release:
-    jobs:
-      - build_provider:
-          name: build_and_test_provider
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v.*/
-
-      - release_provider:
-          name: release_terraform_provider
-          requires: [build_and_test_provider]
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v.*/
-
-
 orbs:
   terraform_provider_circleci:
     commands:
@@ -56,9 +36,9 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
 
-  release_provider:
-    docker:
-      - image: circleci/golang
-    steps:
-      - checkout
-      - run: curl -sL https://git.io/goreleaser | bash
+  # release_provider:
+  #   docker:
+  #     - image: circleci/golang
+  #   steps:
+  #     - checkout
+  #     - run: curl -sL https://git.io/goreleaser | bash
