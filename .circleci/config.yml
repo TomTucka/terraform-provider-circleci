@@ -55,27 +55,10 @@ jobs:
           command: gotestsum --junitfile unit-tests.xml
       - store_test_results:
           path: /tmp/test-results
-      - run:
-          name: Build CircleCI provider
-          command: |
-            CGO_ENABLED=0 GOOS=darwin GOARCH=386 go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-darwin-386
-            CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-darwin-amd64
-            CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-linux-386
-            CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-linux-amd64
-            CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -ldflags="-s -w" -a -o build/terraform-provider-circleci-linux-arm
-      - persist_to_workspace:
-          root: ~/provider
-          paths:
-            - build
 
   release_provider:
     docker:
       - image: circleci/golang
     steps:
-      - attach_workspace:
-          at: ~/provider
-      - terraform_provider_circleci/install_ghr
-      - run:
-          name: Release CircleCI provider
-          command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${CIRCLE_TAG} -delete -draft ${CIRCLE_TAG} ~/provider/build
+      - checkout
+      - run: curl -sL https://git.io/goreleaser | bash
