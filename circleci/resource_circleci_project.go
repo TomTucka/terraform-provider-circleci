@@ -20,8 +20,9 @@ func resourceCircleciProject() *schema.Resource {
 				Required: true,
 			},
 			"env_vars": {
-				Type:     schema.TypeMap,
-				Optional: true,
+				Type:      schema.TypeMap,
+				Optional:  true,
+				Sensitive: true,
 			},
 		},
 	}
