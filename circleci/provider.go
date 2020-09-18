@@ -21,8 +21,8 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"circleci_project": 				resourceCircleciProject(),
-			"circleci_environment_variable": 	resourceCircleciEnvVar(),
+			"circleci_project":              resourceCircleciProject(),
+			"circleci_environment_variable": resourceCircleciEnvVar(),
 		},
 	}
 	p.ConfigureFunc = providerConfiguretest(p)

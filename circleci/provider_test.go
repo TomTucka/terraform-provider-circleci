@@ -4,6 +4,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 )
+
 func TestProvider_HasChildResources(t *testing.T) {
 	expectedResources := []string{
 		"circleci_project",
@@ -21,8 +22,8 @@ func TestProvider_HasChildResources(t *testing.T) {
 
 func TestProvider_SchemaIsValid(t *testing.T) {
 	type testParams struct {
-		token          string
-		organization   string
+		token        string
+		organization string
 	}
 
 	tests := []testParams{
