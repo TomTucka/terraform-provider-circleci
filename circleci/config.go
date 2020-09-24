@@ -1,16 +1,18 @@
 package circleci
 
 import (
-	"github.com/jszwedko/go-circleci"
+	"github.com/TomTucka/go-circleci"
 )
 
 type Config struct {
 	Token        string
 	Organization string
+	vcs          string
 }
 
 type Organization struct {
 	name   string
+	VCS    string
 	client *circleci.Client
 }
 
@@ -19,6 +21,7 @@ func (c *Config) Client() (interface{}, error) {
 
 	org.name = c.Organization
 	org.client = &circleci.Client{Token: c.Token}
+	org.VCS = c.vcs
 
 	return &org, nil
 }

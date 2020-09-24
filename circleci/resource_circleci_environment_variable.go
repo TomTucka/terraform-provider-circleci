@@ -2,6 +2,7 @@ package circleci
 
 import (
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -35,10 +36,11 @@ func resourceCircleciEnvVar() *schema.Resource {
 func resourceCircleciEnvVarCreate(d *schema.ResourceData, meta interface{}) error {
 	client := meta.(*Organization).client
 	organization := meta.(*Organization).name
+	vcs := meta.(*Organization).VCS
 	project := d.Get("project").(string)
 	name := d.Get("name").(string)
 	value := d.Get("value").(string)
-	_, err := client.AddEnvVar(organization, project, name, value)
+	_, err := client.AddEnvVar(vcs, organization, project, name, value)
 	if err != nil {
 		return err
 	}
@@ -57,7 +59,8 @@ func resourceCircleciEnvVarUpdate(d *schema.ResourceData, meta interface{}) erro
 func resourceCircleciEnvVarDelete(d *schema.ResourceData, meta interface{}) error {
 	client := meta.(*Organization).client
 	organization := meta.(*Organization).name
+	vcs := meta.(*Organization).VCS
 	project := d.Get("project").(string)
 	name := d.Get("name").(string)
-	return client.DeleteEnvVar(organization, project, name)
+	return client.DeleteEnvVar(vcs, organization, project, name)
 }

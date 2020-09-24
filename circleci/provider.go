@@ -19,6 +19,12 @@ func Provider() *schema.Provider {
 				DefaultFunc: schema.EnvDefaultFunc("CIRCLECI_ORGANIZATION", nil),
 				Description: "CircleCI organization name to manage.",
 			},
+			"vcs_type": {
+				Type:        schema.TypeString,
+				Required:    true,
+				DefaultFunc: schema.EnvDefaultFunc("CIRCLECI_VCS_TYPE", "github"),
+				Description: "The VCS type for the organization.",
+			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"circleci_project":              resourceCircleciProject(),
@@ -34,6 +40,7 @@ func providerConfiguretest(p *schema.Provider) schema.ConfigureFunc {
 		config := Config{
 			Token:        d.Get("token").(string),
 			Organization: d.Get("organization").(string),
+			vcs:          d.Get("vcs_type").(string),
 		}
 
 		return config.Client()
