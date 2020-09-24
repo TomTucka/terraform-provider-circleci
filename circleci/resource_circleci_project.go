@@ -31,10 +31,11 @@ func resourceCircleciProject() *schema.Resource {
 func resourceCircleciProjectCreate(d *schema.ResourceData, m interface{}) error {
 	client := m.(*Organization).client
 	organization := m.(*Organization).name
+	vcs := m.(*Organization).VCS
 	project := d.Get("name").(string)
 	envVars := d.Get("env_vars").(map[string]interface{})
 
-	_, err := client.FollowProject(organization, project)
+	_, err := client.FollowProject(vcs, organization, project)
 	if err != nil {
 		return err
 	}
@@ -42,7 +43,7 @@ func resourceCircleciProjectCreate(d *schema.ResourceData, m interface{}) error 
 	d.SetId(project)
 
 	for name, value := range envVars {
-		_, err := client.AddEnvVar(organization, project, name, value.(string))
+		_, err := client.AddEnvVar(vcs, organization, project, name, value.(string))
 		if err != nil {
 			return err
 		}

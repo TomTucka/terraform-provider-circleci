@@ -24,11 +24,12 @@ func TestProvider_SchemaIsValid(t *testing.T) {
 	type testParams struct {
 		token        string
 		organization string
+		vcs          string
 	}
 
 	tests := []testParams{
-		{"myTestToken", "terraform-providers-circleci"},
-		{"myTestToken", "terraform-providers-circleci"},
+		{"myTestToken", "terraform-providers-circleci", "github"},
+		{"myTestToken", "terraform-providers-circleci", "github"},
 	}
 
 	schema := Provider().Schema
@@ -36,6 +37,7 @@ func TestProvider_SchemaIsValid(t *testing.T) {
 
 	for _, test := range tests {
 		require.NotEmpty(t, test.token, "A property in the schema cannot have a nil value")
+		require.NotNil(t, test.organization, "A property in the schema cannot have a nil value")
 		require.NotNil(t, test.organization, "A property in the schema cannot have a nil value")
 	}
 }
