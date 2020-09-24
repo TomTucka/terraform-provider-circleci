@@ -1,8 +1,9 @@
 package circleci
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestProvider_HasChildResources(t *testing.T) {
@@ -28,6 +29,7 @@ func TestProvider_SchemaIsValid(t *testing.T) {
 	}
 
 	tests := []testParams{
+		{"myTestToken", "terraform-providers-circleci", "github"},
 		{"myTestToken", "terraform-providers-circleci", "github"},
 		{"myTestToken", "terraform-providers-circleci", "github"},
 	}
