@@ -21,7 +21,7 @@ func Provider() *schema.Provider {
 			},
 			"vcs_type": {
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("CIRCLECI_VCS_TYPE", "github"),
 				Description: "The VCS type for the organization.",
 			},
