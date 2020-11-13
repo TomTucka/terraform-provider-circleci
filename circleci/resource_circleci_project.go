@@ -62,7 +62,8 @@ func resourceCircleciProjectUpdate(d *schema.ResourceData, m interface{}) error 
 func resourceCircleciProjectDelete(d *schema.ResourceData, m interface{}) error {
 	client := m.(*Organization).client
 	organization := m.(*Organization).name
+	vcs := m.(*Organization).VCS
 	name := d.Get("name").(string)
 
-	return client.DisableProject(organization, name)
+	return client.DisableProject(vcs, organization, name)
 }
