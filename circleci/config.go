@@ -1,7 +1,7 @@
 package circleci
 
 import (
-	"github.com/TomTucka/go-circleci"
+	"github.com/mattermost/go-circleci"
 )
 
 type Config struct {
@@ -12,16 +12,17 @@ type Config struct {
 
 type Organization struct {
 	name   string
-	VCS    string
+	VCS    circleci.VcsType
 	client *circleci.Client
 }
+
 
 func (c *Config) Client() (interface{}, error) {
 	var org Organization
 
 	org.name = c.Organization
-	org.client = &circleci.Client{Token: c.Token}
-	org.VCS = c.vcs
+	org.client = &circleci.Client{Token: c.Token, Version: circleci.APIVersion2}
+	org.VCS = circleci.VcsType(c.vcs)
 
 	return &org, nil
 }
