@@ -15,7 +15,7 @@ circleci_project manages projects in CircleCI.
 ```terraform
 resource "circleci_project" "example" {
     name     = "MyCircleProject"
-    env_vars {
+    env_vars = {
       SOME_VARIABLE = "MyVariableValue"
     }
 }
@@ -29,5 +29,4 @@ resource "circleci_project" "example" {
 
 ### Optional
 
-- **env_vars** (Map, Optional) Map of Environment variables for the project 
-
+- **env_vars** (Map, Optional) Map of Environment variables for the project
